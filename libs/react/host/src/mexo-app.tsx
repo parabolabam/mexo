@@ -37,7 +37,28 @@ export const MexoApp = forwardRef<HTMLDivElement, MicrofrontAppProps>(
       };
 
       if (name && containerRef.current) {
-        construct(name, containerRef.current);
+        const constructStartHiResTimestamp = performance.now();
+
+        construct(name, containerRef.current).then(() => {
+          const constructEndHiResTimestamp = performance.now();
+          console.log({
+            detail: {
+              loadTime:
+                constructEndHiResTimestamp - constructStartHiResTimestamp,
+              measureUnit: 'ms',
+            },
+          });
+
+          document.dispatchEvent(
+            new CustomEvent('mexo:app:loaded', {
+              detail: {
+                loadTime:
+                  constructEndHiResTimestamp - constructStartHiResTimestamp,
+                measureUnit: 'ms',
+              },
+            }),
+          );
+        });
       }
 
       return () => {
