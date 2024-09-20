@@ -41,13 +41,6 @@ export const MexoApp = forwardRef<HTMLDivElement, MicrofrontAppProps>(
 
         construct(name, containerRef.current).then(() => {
           const constructEndHiResTimestamp = performance.now();
-          console.log({
-            detail: {
-              loadTime:
-                constructEndHiResTimestamp - constructStartHiResTimestamp,
-              measureUnit: 'ms',
-            },
-          });
 
           document.dispatchEvent(
             new CustomEvent('mexo:app:loaded', {
